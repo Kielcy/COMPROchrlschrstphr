@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Coffee {
-    // Properties (Attributes)
+    // Properties Attributes
     private String name;
     private String type;
     private String size;

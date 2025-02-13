@@ -43,7 +43,7 @@ public class Main {
         System.out.println("Updated Description: " + espresso.describe());
         espresso.displayDetails();
 
-        // Call methods for the second object (latte)
+        // Call methods for the second object latte
         System.out.println("=== Latte Details ===");
         latte.displayDetails();
         System.out.println("Calculated Price for Small Size (PHP): ₱" + latte.calculatePrice("Small"));
