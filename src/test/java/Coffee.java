@@ -6,7 +6,7 @@ public class Coffee {
     private String name;
     private String type;
     private String size;
-    private double price;
+    private double price; // Price in PHP
     private String roastLevel;
     private String origin;
     private boolean isDecaf;
@@ -83,7 +83,7 @@ public class Coffee {
         System.out.println("Coffee Name: " + name);
         System.out.println("Type: " + type);
         System.out.println("Size: " + size);
-        System.out.printf("Price: $%.2f%n", price);
+        System.out.printf("Price (PHP): ₱%.2f%n", price);
         System.out.println("Roast Level: " + roastLevel);
         System.out.println("Origin: " + origin);
         System.out.println("Decaf: " + (isDecaf ? "Yes" : "No"));

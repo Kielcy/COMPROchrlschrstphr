@@ -1,14 +1,11 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
-        // Create two Coffee objects
+        // Create two Coffee objects with prices in PHP
         Coffee espresso = new Coffee(
                 "Espresso",
                 "Arabica",
                 "Small",
-                3.50,
+                196.00, // Price in PHP
                 "Dark",
                 "Italy",
                 false,
@@ -21,7 +18,7 @@ public class Main {
                 "Latte",
                 "Robusta",
                 "Medium",
-                4.50,
+                252.00, // Price in PHP
                 "Medium",
                 "Brazil",
                 true,
@@ -33,7 +30,7 @@ public class Main {
         // Call methods for the first object (espresso)
         System.out.println("=== Espresso Details ===");
         espresso.displayDetails();
-        System.out.println("Calculated Price for Large Size: $" + espresso.calculatePrice("Large"));
+        System.out.println("Calculated Price for Large Size (PHP): ₱" + espresso.calculatePrice("Large"));
         System.out.println("Is in Stock? " + (espresso.checkStock() ? "Yes" : "No"));
         espresso.addFlavor("Citrus");
         espresso.updateStock(-2); // Reduce stock by 2
@@ -46,7 +43,7 @@ public class Main {
         // Call methods for the second object (latte)
         System.out.println("=== Latte Details ===");
         latte.displayDetails();
-        System.out.println("Calculated Price for Small Size: $" + latte.calculatePrice("Small"));
+        System.out.println("Calculated Price for Small Size (PHP): ₱" + latte.calculatePrice("Small"));
         System.out.println("Is in Stock? " + (latte.checkStock() ? "Yes" : "No"));
         latte.addFlavor("Hazelnut");
         latte.updateStock(10); // Add 10 to stock
