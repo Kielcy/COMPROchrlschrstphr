@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<form action="/update" method="post">
+  <input type="hidden" name="id" th:value="${coffee.id}">
+
+  <label>Name: <input type="text" name="name" th:value="${coffee.name}" required></label><br>
+  <label>Type: <input type="text" name="type" th:value="${coffee.type}" required></label><br>
+  <label>Size: <input type="text" name="size" th:value="${coffee.size}" required></label><br>
+  <label>Price: <input type="number" step="0.01" name="price" th:value="${coffee.price}" required></label><br>
+  <label>Roast Level: <input type="text" name="roastLevel" th:value="${coffee.roastLevel}" required></label><br>
+  <label>Origin: <input type="text" name="origin" th:value="${coffee.origin}" required></label><br>
+  <label>Decaf:
+    <select name="isDecaf">
+      <option value="true" th:selected="${coffee.decaf}">Yes</option>
+      <option value="false" th:selected="${!coffee.decaf}">No</option>
+    </select>
+  </label><br>
+  <label>Stock: <input type="number" name="stock" th:value="${coffee.stock}" required></label><br>
+  <label>Flavor Notes (comma-separated):
+    <input type="text" name="flavorNotes" th:value="${#strings.arrayJoin(coffee.flavorNotes, ', ')}">
+  </label><br>
+  <label>Brew Method: <input type="text" name="brewMethod" th:value="${coffee.brewMethod}" required></label><br>
+
+  <button type="submit">Update Coffee</button>
+</form>
+<a href="/">Back to List</a>
+</body>
+</html>

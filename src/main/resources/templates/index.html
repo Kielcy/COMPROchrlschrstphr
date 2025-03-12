@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Coffee List</title>
+</head>
+<body>
+<h1>Available Coffees</h1>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Roast Level</th>
+        <th>Origin</th>
+        <th>Decaf</th>
+        <th>Stock</th>
+        <th>Flavor Notes</th>
+        <th>Brew Method</th>
+        <th>Actions</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="coffee : ${coffees}">
+        <td th:text="${coffee.id}"></td>
+        <td th:text="${coffee.name}"></td>
+        <td th:text="${coffee.type}"></td>
+        <td th:text="${coffee.size}"></td>
+        <td th:text="${coffee.price}"></td>
+        <td th:text="${coffee.roastLevel}"></td>
+        <td th:text="${coffee.origin}"></td>
+        <td th:text="${coffee.decaf} ? 'Yes' : 'No'"></td>
+        <td th:text="${coffee.stock}"></td>
+        <td th:text="${#strings.arrayJoin(coffee.flavorNotes, ', ')}"></td>
+        <td th:text="${coffee.brewMethod}"></td>
+        <td>
+            <a th:href="@{/edit(id=${coffee.id})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/delete(id=${coffee.id})}">Delete</a>
+        </td>
+    </tr>
+</table>
+<a href="/add">Add New Coffee</a>
+</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>
