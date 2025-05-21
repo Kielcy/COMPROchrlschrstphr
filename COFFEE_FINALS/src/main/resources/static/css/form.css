@@ -1,0 +1,216 @@
+form {
+    max-width: 600px;
+    margin: 0 auto 30px;
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+label {
+    display: block;
+    margin: 0 0 8px;
+    font-weight: 500;
+    color: #c49b63;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background-color: #2c2c2c;
+    border: 1px solid #3e2723;
+    color: #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input:focus, select:focus {    outline: none;    border-color: #c49b63;    box-shadow: 0 0 0 2px rgba(196, 155, 99, 0.25);}/* Custom select styling */select {    appearance: none;    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="6"><path d="M0 0l6 6 6-6z" fill="%23c49b63"/></svg>');    background-repeat: no-repeat;    background-position: right 12px center;    padding-right: 30px;    cursor: pointer;}/* For Firefox */select {    -moz-appearance: none;    text-indent: 0.01px;    text-overflow: '';}
+
+select[multiple] {
+    height: 120px;
+}
+
+small {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    color: #c49b63;
+    font-style: italic;
+}
+
+a.back-link {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 20px;
+    background-color: #3e2723;
+    border-radius: 6px;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+a.back-link:before {
+    content: "←";
+    margin-right: 8px;
+    font-weight: bold;
+}
+
+a.back-link:hover {
+    background-color: #5d4037;
+    transform: translateX(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Checkbox styling */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 0 0 25px;
+    background-color: #252525;
+    padding: 20px;
+    border-radius: 6px;
+    border: 1px solid #3e2723;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    width: auto;
+    margin-bottom: 0;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-item:hover {
+    background-color: #2c2c2c;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.checkbox-item label {
+    display: inline;
+    margin: 0;
+    font-weight: normal;
+    color: #e0e0e0;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+    background-color: #c49b63;
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    width: auto;
+    margin: 10px auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #b38953;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive design for checkbox grid */
+@media screen and (max-width: 768px) {
+    .checkbox-group {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Select wrapper for special select dropdowns */
+.select-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+/* Special styling for status selections */
+.status-select {
+    font-weight: 500;
+    background-color: #252525;
+    border-left: 4px solid #c49b63;
+}
+
+.status-select option {
+    padding: 10px;
+}
+
+/* Adding a bit of spacing after select containers */
+.select-wrapper:after {
+    content: '';
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Add styles for simplified error summary */
+.validation-summary {
+    background-color: #2c2c2c;
+    border-left: 4px solid #c49b63;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.validation-summary h3 {
+    color: #c49b63;
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.simple-error-list {
+    margin: 0;
+    padding-left: 1.5rem;
+}
+
+.simple-error-list li {
+    color: #e0e0e0;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #3e2723;
+}
+
+/* Error field highlighting */
+input.error, select.error {
+    border-color: #ff5757;
+    background-color: rgba(255, 87, 87, 0.05);
+}
+
+input.error:focus, select.error:focus {
+    box-shadow: 0 0 0 2px rgba(255, 87, 87, 0.25);
+}
+
+/* Error message below fields */
+.error-message {
+    display: block;
+    color: #ff5757;
+    font-size: 0.85rem;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-style: italic;
+} 
