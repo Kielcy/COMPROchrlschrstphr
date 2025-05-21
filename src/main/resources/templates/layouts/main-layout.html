@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title layout:title-pattern="$CONTENT_TITLE - Coffee Shop">Coffee Shop</title>
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    
+    <!-- Page-specific CSS -->
+    <th:block layout:fragment="css"></th:block>
+    
+    <style>
+        /* Common styles */
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        
+        .user-info span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .logout-button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        .logout-button:hover {
+            background-color: #c9302c;
+        }
+        
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            margin-top: 40px;
+            text-align: center;
+            border-top: 1px solid #e7e7e7;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <h2>Coffee Management</h2>
+            </div>
+            <nav class="nav-links">
+                <a href="/" th:classappend="${#httpServletRequest.requestURI == '/' ? 'active' : ''}">Coffee List</a>
+                <a href="/add" th:if="${user != null && user.role == 'ADMIN'}" th:classappend="${#httpServletRequest.requestURI == '/add' ? 'active' : ''}">Add New</a>
+                <div class="user-info" th:if="${user != null}">
+                    <span th:text="'Hello, ' + ${user.username} + ' (' + ${user.role} + ')'"></span>
+                    <a href="/logout" class="logout-button">Logout</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page content -->
+    <div class="page-container">
+        <!-- Title section -->
+        <div class="page-title" layout:fragment="page-title">
+            <!-- Default title if not overridden -->
+            <h1>Coffee Shop</h1>
+        </div>
+        
+        <!-- Main content -->
+        <main layout:fragment="content">
+            <!-- Content will be replaced by the page using this layout -->
+            <p>Page content goes here</p>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 Coffee Management System</p>
+    </footer>
+    
+    <!-- Common JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <!-- Page-specific JavaScript -->
+    <th:block layout:fragment="scripts"></th:block>
+</body>
+</html> 

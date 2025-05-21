@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Coffee List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/layout.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <style>
+        .user-info {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+        }
+        .user-info span {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .logout-button {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .logout-button:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-container">
+        <div class="logo">
+            <h2>Coffee Management</h2>
+        </div>
+        <nav class="nav-links">
+            <a href="/" class="active">Coffee List</a>
+            <a href="/add" th:if="${user != null && user.role == 'ADMIN'}">Add New</a>
+            <div class="user-info">
+                <span th:if="${user != null}" th:text="'Hello, ' + ${user.username} + ' (' + ${user.role} + ')'"></span>
+                <a href="/logout" class="logout-button">Logout</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<div class="page-container">
+    <div class="page-title">
+        <h1>Brown Bucks</h1>
+        <p>Browse, search and manage your coffee inventory</p>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <form action="/" method="get" class="search-form">
+            <input type="text" name="search" placeholder="Search coffees by name, type or origin..." />
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Size</th>
+                        <th>Price</th>
+                        <th>Roast Level</th>
+                        <th>Origin</th>
+                        <th>Decaf</th>
+                        <th>Stock</th>
+                        <th>Flavor Notes</th>
+                        <th>Brew Method</th>
+                        <th th:if="${user != null && user.role == 'ADMIN'}">Actions</th>
+                        <th th:if="${user != null && user.role == 'ADMIN'}">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="coffee : ${coffees}">
+                        <td th:text="${coffee.id}"></td>
+                        <td th:text="${coffee.name}"></td>
+                        <td th:text="${coffee.type}"></td>
+                        <td th:text="${coffee.size}"></td>
+                        <td th:text="'₱' + ${coffee.price}"></td>
+                        <td th:text="${coffee.roastLevel}"></td>
+                        <td th:text="${coffee.origin}"></td>
+                        <td th:text="${coffee.decaf} ? 'Yes' : 'No'"></td>
+                        <td th:text="${coffee.stock}"></td>
+                        <td th:text="${#strings.arrayJoin(coffee.flavorNotes, ', ')}"></td>
+                        <td th:text="${coffee.brewMethod}"></td>
+                        <td th:if="${user != null && user.role == 'ADMIN'}">
+                            <a th:href="@{/edit(id=${coffee.id})}">Edit</a>
+                        </td>
+                        <td th:if="${user != null && user.role == 'ADMIN'}">
+                            <a th:href="@{/delete(id=${coffee.id})}">Delete</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Center the button -->
+    <div class="button-container" th:if="${user != null && user.role == 'ADMIN'}">
+        <a href="/add" class="add-button">Add New Coffee</a>
+    </div>
+</div>
+
+<footer class="footer">
+    <p>© 2025 Coffee Management System</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+.table-container {    overflow-x: auto;    margin: 0 0 20px;    border-radius: 8px;    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);}table {    width: 100%;    border-collapse: collapse;    margin: 0;    font-size: 0.95rem;    background-color: #1a1a1a;    border-radius: 8px;    overflow: hidden;}th, td {    padding: 12px 15px;    text-align: left;    border-bottom: 1px solid #333;}th {    background-color: #3e2723;    color: #f5f5f5;    font-weight: 600;    text-transform: uppercase;    font-size: 0.85rem;    letter-spacing: 0.5px;}tr:last-child td {    border-bottom: none;}tr:nth-child(even) {    background-color: #1e1e1e;}tr:nth-child(odd) {    background-color: #252525;}tr:hover {    background-color: #2c2c2c;}
+
+.search-bar {    margin-bottom: 30px;    text-align: center;    max-width: 600px;    margin-left: auto;    margin-right: auto;}.search-form {    display: flex;    height: 42px;    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);    border-radius: 6px;    overflow: hidden;}.search-bar input {    flex: 1;    padding: 10px 15px;    border: 1px solid #3e2723;    border-right: none;    border-radius: 6px 0 0 6px;    background-color: #2c2c2c;    color: #f5f5f5;    font-size: 1rem;    outline: none;    transition: all 0.3s ease;}.search-bar input:focus {    background-color: #333;    border-color: #c49b63;}.search-bar button {    padding: 0 20px;    background-color: #c49b63;    color: #fff;    border: none;    cursor: pointer;    border-radius: 0 6px 6px 0;    font-weight: 600;    transition: all 0.3s ease;}.search-bar button:hover {    background-color: #b38953;}
+
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+} 
