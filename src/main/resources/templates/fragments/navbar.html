@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navbar Fragment</title>
+</head>
+<body>
+    <!-- Navbar Fragment -->
+    <nav th:fragment="navbar(activeTab)" class="navbar">
+        <div class="navbar-container">
+            <a href="/" class="navbar-logo">
+                <svg class="navbar-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M2,21V19H20V21H2M20,8V5H18V8H20M20,3A2,2 0 0,1 22,5V8A2,2 0 0,1 20,10H18V13A4,4 0 0,1 14,17H8A4,4 0 0,1 4,13V3H20M16,5H6V13A2,2 0 0,0 8,15H14A2,2 0 0,0 16,13V5Z" />
+                </svg>
+                <span class="navbar-logo-text">Coffee Shop</span>
+            </a>
+
+            <button class="navbar-mobile-toggle" id="navbar-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                    <path d="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+                </svg>
+            </button>
+
+            <div class="navbar-links" id="navbar-links">
+                <a href="/" class="navbar-link" th:classappend="${activeTab == 'dashboard'} ? 'active' : ''">
+                    <svg class="navbar-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+                    </svg>
+                    Dashboard
+                </a>
+                <a href="/table" class="navbar-link" th:classappend="${activeTab == 'table'} ? 'active' : ''">
+                    <svg class="navbar-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4,3H20A2,2 0 0,1 22,5V20A2,2 0 0,1 20,22H4A2,2 0 0,1 2,20V5A2,2 0 0,1 4,3M4,7V10H8V7H4M10,7V10H14V7H10M20,10V7H16V10H20M4,12V15H8V12H4M4,20H8V17H4V20M10,12V15H14V12H10M10,20H14V17H10V20M20,20V17H16V20H20M20,12H16V15H20V12Z" />
+                    </svg>
+                    Table View
+                </a>
+                <a href="/catalog" class="navbar-link" th:classappend="${activeTab == 'catalog'} ? 'active' : ''">
+                    <svg class="navbar-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3,11H11V3H3M3,21H11V13H3M13,21H21V13H13M13,3V11H21V3" />
+                    </svg>
+                    Catalog View
+                </a>
+                <a href="/add" class="navbar-link" th:classappend="${activeTab == 'add'} ? 'active' : ''">
+                    <svg class="navbar-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                    </svg>
+                    Add Coffee
+                </a>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <button type="submit" class="navbar-logout">
+                        <svg class="navbar-logout-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16,17V14H9V10H16V7L21,12L16,17M14,2A2,2 0 0,1 16,4V6H14V4H5V20H14V18H16V20A2,2 0 0,1 14,22H5A2,2 0 0,1 3,20V4A2,2 0 0,1 5,2H14Z" />
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- JavaScript for mobile menu toggle -->
+    <script th:fragment="navbar-js">
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarToggle = document.getElementById('navbar-toggle');
+            const navbarLinks = document.getElementById('navbar-links');
+            
+            if (navbarToggle && navbarLinks) {
+                navbarToggle.addEventListener('click', function() {
+                    navbarLinks.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

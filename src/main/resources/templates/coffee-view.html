@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee Details</title>
+    
+    <!-- Include common styles -->
+    <style th:replace="fragments/styles :: common-styles"></style>
+    <style th:replace="fragments/styles :: navbar-styles"></style>
+    
+    <style>
+        /* Coffee view specific styles */
+        .coffee-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        @media (min-width: 992px) {
+            .coffee-container {
+                flex-direction: row;
+            }
+        }
+        
+        .coffee-image-container {
+            flex: 0 0 40%;
+            position: relative;
+        }
+        
+        .coffee-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+        }
+        
+        .coffee-details {
+            flex: 1;
+            background-color: #1e1e1e;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .coffee-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #c49b63;
+            margin-bottom: 10px;
+        }
+        
+        .coffee-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .badge {
+            padding: 6px 12px;
+            background-color: rgba(196, 155, 99, 0.2);
+            color: #c49b63;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .coffee-section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #a0a0a0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
+        }
+        
+        .coffee-attribute {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+        
+        .attribute-label {
+            font-weight: 500;
+            width: 120px;
+            color: #a0a0a0;
+        }
+        
+        .attribute-value {
+            color: #e0e0e0;
+            font-size: 1.1rem;
+        }
+        
+        .coffee-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #c49b63;
+            margin-top: auto;
+            margin-bottom: 25px;
+        }
+        
+        .actions-container {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+        
+        .action-button {
+            padding: 12px 20px;
+            text-align: center;
+            background-color: #3e2723;
+            color: #f5f5f5;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .action-button:hover {
+            background-color: #5d4037;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            color: #c49b63;
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: all 0.2s ease;
+        }
+        
+        .back-link:hover {
+            color: #d5aa6f;
+        }
+        
+        .back-icon {
+            margin-right: 8px;
+        }
+        
+        .flavor-notes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 5px;
+        }
+        
+        .flavor-note {
+            padding: 5px 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .stock-indicator {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin-left: 10px;
+        }
+        
+        .in-stock {
+            background-color: rgba(46, 125, 50, 0.2);
+            color: #81c784;
+        }
+        
+        .low-stock {
+            background-color: rgba(237, 108, 2, 0.2);
+            color: #ffb74d;
+        }
+        
+        .out-of-stock {
+            background-color: rgba(183, 28, 28, 0.2);
+            color: #e57373;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">Coffee Details</h1>
+    </header>
+
+    <!-- Navigation Bar -->
+    <div th:replace="fragments/navbar :: navbar('catalog')"></div>
+
+    <div class="container">
+        <a href="/catalog" class="back-link">
+            <span class="back-icon">←</span> Back to Catalog
+        </a>
+        
+        <div class="coffee-container">
+            <div class="coffee-image-container">
+                <img th:src="@{'/uploads/' + ${coffee.imagePath}}" alt="Coffee Image" class="coffee-image" 
+                     onerror="this.src='/uploads/default-coffee.jpg'; this.onerror=null;">
+            </div>
+            
+            <div class="coffee-details">
+                <h1 class="coffee-name" th:text="${coffee.name}">Coffee Name</h1>
+                
+                <div class="coffee-badges">
+                    <span class="badge" th:text="${coffee.type}">Type</span>
+                    <span class="badge" th:text="${coffee.roastLevel}">Roast Level</span>
+                    <span class="badge" th:text="${coffee.brewMethod}">Brew Method</span>
+                    <span class="badge" th:if="${coffee.decaf}">Decaf</span>
+                </div>
+                
+                <div class="coffee-section">
+                    <h2 class="section-title">Details</h2>
+                    
+                    <div class="coffee-attribute">
+                        <span class="attribute-label">Origin:</span>
+                        <span class="attribute-value" th:text="${coffee.origin}">Origin</span>
+                    </div>
+                    
+                    <div class="coffee-attribute">
+                        <span class="attribute-label">Size:</span>
+                        <span class="attribute-value" th:text="${coffee.size}">Size</span>
+                    </div>
+                    
+                    <div class="coffee-attribute">
+                        <span class="attribute-label">Brew Method:</span>
+                        <span class="attribute-value" th:text="${coffee.brewMethod}">Brew Method</span>
+                    </div>
+                    
+                    <div class="coffee-attribute">
+                        <span class="attribute-label">Availability:</span>
+                        <span class="attribute-value" th:text="${coffee.stock}">Stock</span>
+                        <span th:class="${coffee.stock > 10 ? 'stock-indicator in-stock' : (coffee.stock > 0 ? 'stock-indicator low-stock' : 'stock-indicator out-of-stock')}"
+                              th:text="${coffee.stock > 10 ? 'In Stock' : (coffee.stock > 0 ? 'Low Stock' : 'Out of Stock')}">
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="coffee-section">
+                    <h2 class="section-title">Flavor Profile</h2>
+                    
+                    <div class="coffee-attribute">
+                        <span class="attribute-label">Roast Level:</span>
+                        <span class="attribute-value" th:text="${coffee.roastLevel}">Roast Level</span>
+                    </div>
+                    
+                    <div class="coffee-attribute">
+                        <span class="attribute-label">Flavor Notes:</span>
+                        <div class="flavor-notes">
+                            <span class="flavor-note" th:each="flavor : ${coffee.flavorNotes}" th:text="${flavor}">Flavor</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="coffee-price" th:text="'$' + ${#numbers.formatDecimal(coffee.price, 1, 2)}">$0.00</div>
+                
+                <div class="actions-container">
+                    <a class="action-button" th:href="@{/edit(id=${coffee.id})}">Edit Coffee</a>
+                    <form th:action="@{/delete}" method="post" style="flex:1; margin:0; padding:0;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="hidden" name="id" th:value="${coffee.id}" />
+                        <button type="submit" class="action-button" style="width:100%;">Delete Coffee</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <!-- Include navbar JavaScript -->
+    <div th:replace="fragments/navbar :: navbar-js"></div>
+</body>
+</html> 

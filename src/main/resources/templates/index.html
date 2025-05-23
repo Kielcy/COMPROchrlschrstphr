@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffee List</title>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: #121212; /* Dark background */
+            color: #e0e0e0; /* Light text */
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Typography */
+        h1 {
+            color: #c49b63; /* Warm coffee color */
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Table styles */
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #1e1e1e;
+        }
+        
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #3e2723; /* Dark coffee brown */
+            color: #f5f5f5; /* Light text */
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        /* Add subtle border between headers */
+        th:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 25%;
+            height: 50%;
+            width: 1px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        tr:nth-child(even) {
+            background-color: #1e1e1e; /* Slightly lighter row */
+        }
+        
+        tr:nth-child(odd) {
+            background-color: #2c2c2c; /* Darker odd rows */
+        }
+        
+        tr:hover {
+            background-color: #303030;
+        }
+
+        td {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Link styles */
+        a {
+            text-decoration: none;
+            color: #c49b63; /* Warm coffee color */
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        a:hover {
+            color: #ffcc80; /* Lighter hover effect */
+        }
+        
+        .action-link {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: rgba(196, 155, 99, 0.1);
+            transition: all 0.2s ease;
+        }
+        
+        .action-link:hover {
+            background-color: rgba(196, 155, 99, 0.2);
+        }
+        
+        .delete-link {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            transition: all 0.2s ease;
+        }
+        
+        .delete-link:hover {
+            background-color: rgba(255, 107, 107, 0.2);
+            color: #ff8c8c;
+        }
+        
+        .add-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 14px 24px;
+            background-color: #3e2723; /* Dark coffee brown */
+            color: #f5f5f5; /* Light text */
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .add-button:hover {
+            background-color: #5d4037; /* Slightly lighter brown */
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Search bar */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .search-form {
+            display: flex;
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid #3e2723;
+            border-right: none;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            background-color: #2c2c2c;
+            color: #f5f5f5;
+            font-size: 1rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(196, 155, 99, 0.3);
+        }
+        
+        .search-bar button {
+            padding: 14px 24px;
+            background-color: #c49b63;
+            color: #121212;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .search-bar button:hover {
+            background-color: #d8b583;
+        }
+
+        /* Header styling */
+        .header {
+            background-color: #1e1e1e;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            color: #c49b63;
+        }
+        
+        .logo-text {
+            color: #c49b63;
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Nav tabs styles */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .nav-tab {
+            padding: 12px 24px;
+            margin: 0 8px;
+            background-color: #2c2c2c;
+            color: #e0e0e0;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-tab:hover {
+            background-color: #3e3e3e;
+        }
+        
+        .nav-tab.active {
+            background-color: #c49b63;
+            color: #121212;
+            font-weight: 600;
+        }
+
+        /* Responsive header adjustments */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-tabs {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            
+            .nav-tab {
+                flex: 1;
+                text-align: center;
+                margin: 0;
+                padding: 10px;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            th, td {
+                padding: 12px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .header-bar {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            background-color: #1e1e1e;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .navbar-logo-icon {
+            width: 30px;
+            height: 30px;
+            color: #c49b63;
+        }
+        
+        .navbar-logo-text {
+            color: #c49b63;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+        
+        .navbar-link {
+            padding: 15px;
+            color: #e0e0e0;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .navbar-link:hover {
+            color: #c49b63;
+            background-color: rgba(196, 155, 99, 0.1);
+        }
+        
+        .navbar-link.active {
+            color: #c49b63;
+            border-bottom: 2px solid #c49b63;
+        }
+        
+        .navbar-link-icon {
+            width: 20px;
+            height: 20px;
+        }
+        
+        .navbar-logout {
+            padding: 8px 16px;
+            background-color: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .navbar-logout:hover {
+            background-color: rgba(255, 107, 107, 0.2);
+        }
+        
+        .navbar-logout-icon {
+            width: 18px;
+            height: 18px;
+        }
+
+        .navbar-mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Custom header styling */
+        .header {
+            padding: 30px 0 10px;
+            text-align: center;
+        }
+        
+        .header-title {
+            color: #c49b63;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Responsive navbar adjustments */
+        @media (max-width: 768px) {
+            .navbar-links {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                flex-direction: column;
+                background-color: #1e1e1e;
+                width: 100%;
+                text-align: center;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                align-items: stretch;
+                z-index: 200;
+            }
+            
+            .navbar-links.active {
+                left: 0;
+            }
+            
+            .navbar-link {
+                padding: 15px 20px;
+                justify-content: center;
+            }
+            
+            .navbar-link.active {
+                border-bottom: none;
+                background-color: rgba(196, 155, 99, 0.1);
+            }
+            
+            .navbar-mobile-toggle {
+                display: block;
+            }
+            
+            .navbar-logout {
+                margin: 15px auto;
+                justify-content: center;
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1 class="header-title">Table View</h1>
+    </header>
+
+    <!-- Navigation Bar -->
+    <div th:replace="fragments/navbar :: navbar('table')"></div>
+
+    <div class="container">
+<h1>Available Coffees</h1>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <a href="/" class="nav-tab">Dashboard</a>
+            <a href="/table" class="nav-tab active">Table View</a>
+            <a href="/catalog" class="nav-tab">Catalog View</a>
+            <a href="/add" class="nav-tab">Add New Coffee</a>
+        </div>
+
+<!-- Search Bar -->
+<div class="search-bar">
+            <form action="/table" method="get" class="search-form">
+                <input type="text" name="search" placeholder="Search coffees..." th:value="${search}" />
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Roast Level</th>
+        <th>Origin</th>
+        <th>Decaf</th>
+        <th>Stock</th>
+        <th>Flavor Notes</th>
+        <th>Brew Method</th>
+                        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+                </thead>
+                <tbody>
+    <tr th:each="coffee : ${coffees}">
+        <td th:text="${coffee.id}"></td>
+        <td th:text="${coffee.name}"></td>
+        <td th:text="${coffee.type}"></td>
+        <td th:text="${coffee.size}"></td>
+        <td th:text="${coffee.price}"></td>
+        <td th:text="${coffee.roastLevel}"></td>
+        <td th:text="${coffee.origin}"></td>
+        <td th:text="${coffee.decaf} ? 'Yes' : 'No'"></td>
+        <td th:text="${coffee.stock}"></td>
+        <td th:text="${#strings.arrayJoin(coffee.flavorNotes, ', ')}"></td>
+        <td th:text="${coffee.brewMethod}"></td>
+        <td>
+                            <a class="action-link" th:href="@{/edit(id=${coffee.id})}">Edit</a>
+        </td>
+        <td>
+                            <form th:action="@{/delete}" method="post" style="margin:0; padding:0;">
+                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                <input type="hidden" name="id" th:value="${coffee.id}" />
+                                <button type="submit" class="delete-link" style="border:none; background:none; cursor:pointer; width:auto; padding:6px 12px; font:inherit;">Delete</button>
+                            </form>
+        </td>
+    </tr>
+                </tbody>
+</table>
+        </div>
+<a href="/add" class="add-button">Add New Coffee</a>
+    </div>
+
+    <!-- Include navbar JavaScript -->
+    <div th:replace="fragments/navbar :: navbar-js"></div>
+</body>
+</html>
